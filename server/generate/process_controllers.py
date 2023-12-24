@@ -24,17 +24,26 @@ def segments_from_transcription(verbose_transcription: str, segment_length:str):
     g4f.debug.check_version = False  
     command = """
     below is a verbose transcription of a video,
-    you need to divide it into segments, length of each :{},
-    with the appropriate name of the segment ,
+    you need to divide it into segments just like in youtube , length of each :,""" + segment_length +""" 
     and the starting time and ending time of the same,
-    all in json format without any extra greetings or text,
+    all in json format,
+    with the appropriate title of the segment ,
+
     this means that you directly start generating the json file withou code markdown
-    plain text json:\n
+    plain text json: the format should be {"segments":[
+    {
+      "title": "",
+      "length": "",
+      "start_time": "",
+      "end_time": ""
+    }
+    ]}:\n
     """
     response = g4f.ChatCompletion.create(
-        model=g4f.models.gpt_35_turbo,
-        messages=[{"role": "user", "content": command.format(segment_length) + verbose_transcription}])
-    
+        model=g4f.models.gpt_4,
+        messages=[{"role": "user", "content": command + verbose_transcription}])
+    temp = response.rfind('}')
+    response = response[response.find('{'):temp+1]
     return response
 
 def generate_srt(transcription:str):
