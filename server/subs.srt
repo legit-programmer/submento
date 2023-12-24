@@ -1,0 +1,164 @@
+1
+00:00:00,000 --> 00:00:05,960
+Redis, an in-memory multi-model database famous for its sub-millisecond latency.
+
+2
+00:00:05,960 --> 00:00:12,000
+It was created in 2009 based on the idea that a cache can also be a durable data store.
+
+3
+00:00:12,000 --> 00:00:15,720
+Around this time, apps like Twitter were growing exponentially and needed a way to deliver
+
+4
+00:00:15,720 --> 00:00:19,160
+data to their end-user faster than a relational database could handle.
+
+5
+00:00:19,160 --> 00:00:23,120
+Redis, which means remote dictionary server, was adopted by some of the most heavily
+
+6
+00:00:23,120 --> 00:00:27,640
+traffic sites in the world because it changed the database game by creating a system where
+
+7
+00:00:27,640 --> 00:00:32,200
+data is always modified or read from the main computer memory as opposed to the much
+
+8
+00:00:32,200 --> 00:00:33,480
+slower disk.
+
+9
+00:00:33,480 --> 00:00:38,120
+But at the same time, it stores its data on the disk so it can be reconstructed as needed,
+
+10
+00:00:38,120 --> 00:00:42,680
+which means the database is fully durable, supporting things like snapshots and backups.
+
+11
+00:00:42,680 --> 00:00:47,560
+Every data point in the database is a key, followed by one of many different data structures,
+
+12
+00:00:47,560 --> 00:00:52,200
+like a string, list, hash, or stream, so you can store data naturally just like you would
+
+13
+00:00:52,200 --> 00:00:56,000
+with your favorite programming language as opposed to squeezing it into a bunch of tables
+
+14
+00:00:56,000 --> 00:00:57,660
+or JSON documents.
+
+15
+00:00:57,660 --> 00:01:01,760
+Interacting with the database is handled with a simple set of commands, like set, followed
+
+16
+00:01:01,760 --> 00:01:07,720
+by a key and value, to create data, then get followed by a key to read data.
+
+17
+00:01:07,720 --> 00:01:12,120
+Historically, Redis has been described as a key value store and is often used as a cache
+
+18
+00:01:12,120 --> 00:01:15,040
+to make relational databases faster at scale.
+
+19
+00:01:15,040 --> 00:01:17,080
+But here's where your mind is about to be blown.
+
+20
+00:01:17,080 --> 00:01:22,120
+Redis is perfectly suitable as a primary database, and can dramatically reduce complexity because
+
+21
+00:01:22,120 --> 00:01:26,480
+making things go fast at scale is the primary cause of complexity in the first place.
+
+22
+00:01:26,480 --> 00:01:29,040
+With Redis, your database is already fast.
+
+23
+00:01:29,040 --> 00:01:33,560
+No need for a complex caching layer, but you might be wondering, how do I model complex
+
+24
+00:01:33,560 --> 00:01:34,560
+relationships?
+
+25
+00:01:34,560 --> 00:01:38,880
+Today, Redis is what you would call a multi-model database, supporting a variety of different
+
+26
+00:01:38,880 --> 00:01:42,960
+database paradigms with add-on modules that you can opt into as needed.
+
+27
+00:01:42,960 --> 00:01:47,240
+If your data contains relationships, bring in Redis Graph and query it with Cypher, or
+
+28
+00:01:47,240 --> 00:01:52,400
+use the JSON module to structure your data as a hierarchy, just like a document oriented
+
+29
+00:01:52,400 --> 00:01:53,400
+database.
+
+30
+00:01:53,400 --> 00:01:56,880
+Then use the search module to turn your database into a full-text search engine, and
+
+31
+00:01:56,880 --> 00:02:00,800
+it even has modules for AI workloads, time series data, and more.
+
+32
+00:02:00,800 --> 00:02:04,680
+The quickest way to get started is the free tier on Redis Enterprise Cloud.
+
+33
+00:02:04,680 --> 00:02:08,400
+That'll give you a free database to play around with, and you can attach one extra module
+
+34
+00:02:08,400 --> 00:02:09,400
+to it.
+
+35
+00:02:09,400 --> 00:02:12,600
+Then you can connect to it with the Redis CLI, or with the Redis Insight tool, which
+
+36
+00:02:12,600 --> 00:02:15,680
+contains an interactive dashboard to manage your data.
+
+37
+00:02:15,680 --> 00:02:17,920
+This has been Redis in 100 seconds.
+
+38
+00:02:17,920 --> 00:02:19,000
+But what do you guys think?
+
+39
+00:02:19,000 --> 00:02:21,160
+Would you use Redis as your primary database?
+
+40
+00:02:21,160 --> 00:02:22,800
+Let me know why or why not in the comments.
+
+41
+00:02:22,800 --> 00:02:25,440
+Thanks for watching, and I will see you in the next one.
+
