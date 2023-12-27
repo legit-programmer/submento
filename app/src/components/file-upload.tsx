@@ -8,7 +8,7 @@ const FileUploadButton = ({
     session,
 }: {
     supabase: SupabaseClient<Database>;
-    session: Session;
+    session: Session | null;
 }) => {
     const [file, setFile] = useState<File | null>(null);
     const uploadFile = async (fileName: string, id: string, file: Blob) => {
@@ -17,10 +17,10 @@ const FileUploadButton = ({
             .upload(`${id}-${fileName}`, file, { upsert: true });
     };
     const handleFile = async () => {
-        const {data} = await supabase
+        const { data } = await supabase
             .from("in_progress")
             .select("*")
-            .eq("user_id", session.user.id)
+            .eq("user_id", session?.user.id ?? "")
             .single();
 
         if (!data) {
