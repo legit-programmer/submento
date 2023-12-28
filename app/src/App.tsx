@@ -25,7 +25,7 @@ function App() {
         return () => subscription.unsubscribe();
     }, []);
     return (
-        <main className="">
+        <main className="m-3">
             <Navbar session={session} supabase={supabase} />
             {!session ? (
                 <div>sdljkhflsdf</div>
