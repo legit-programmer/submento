@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Session, createClient } from "@supabase/supabase-js";
-import { Database } from "../types/supabase";
+import { Database } from "./types/supabase";
 import Navbar from "./components/navbar";
 import Main from "./components/main-component";
 

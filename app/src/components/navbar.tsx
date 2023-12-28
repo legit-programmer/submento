@@ -1,7 +1,7 @@
 
-import LoginButton from "./login-button";
+import LoginButton from "@/components/login-button";
 import { Session, SupabaseClient } from "@supabase/supabase-js";
-import UserButton from "./user-button";
+import UserButton from "@/components/user-button";
 
 const Navbar = ({session, supabase}:{session:Session | null, supabase:SupabaseClient}) => {
     return (

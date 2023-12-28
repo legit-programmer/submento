@@ -1,9 +1,9 @@
 import { Session, SupabaseClient } from "@supabase/supabase-js";
 import { Button, Input, InputNumber, Slider, message } from "antd";
 import { useState } from "react";
-import { Database } from "../../types/supabase";
+import { Database } from "@/types/supabase";
 import { UploadIcon } from "lucide-react";
-import ProgressModal from "./progress-modal";
+import ProgressModal from "@/components/progress-modal";
 
 const FileUploadForm = ({
     supabase,

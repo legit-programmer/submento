@@ -1,8 +1,8 @@
 import { Session, SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../../types/supabase";
-import GenerateButton from "./generate-button";
+import { Database } from "@/types/supabase";
+import GenerateButton from "@/components/generate-button";
 import { useState } from "react";
-import FileUploadForm from "./file-upload";
+import FileUploadForm from "@/components/file-upload";
 
 const Main = ({
     supabase,
