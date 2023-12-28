@@ -1,9 +1,12 @@
 import { Session, SupabaseClient } from "@supabase/supabase-js";
-import { Button, Input, InputNumber, Slider, message } from "antd";
 import { useState } from "react";
 import { Database } from "@/types/supabase";
-import { UploadIcon } from "lucide-react";
-import ProgressModal from "@/components/progress-modal";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Progress } from "./ui/progress";
+import { toast } from "@/components/ui/use-toast";
 
 const FileUploadForm = ({
     supabase,
@@ -20,8 +23,7 @@ const FileUploadForm = ({
     segmentLength: number;
     setSegmentLength: any;
 }) => {
-    const [messageApi, contextHolder] = message.useMessage();
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [uploading, setUploading] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0);
 
     const uploadFile = async (id: string, file: Blob) => {
@@ -41,12 +43,11 @@ const FileUploadForm = ({
             let chunkSize = 49000000;
             if (file && file.size / 1000000 < 200) {
                 if (!file.name.endsWith(".mp4")) {
-                    return messageApi.open({
-                        type: "warning",
-                        content: "Only mp4 files are supported.",
+                    return toast({
+                        description: "Only mp4 files are supported.",
                     });
                 }
-                setIsModalOpen(true);
+                setUploading(true);
                 let offset = 0;
                 let currentPercent = 0;
                 while (offset < file.size) {
@@ -63,67 +64,54 @@ const FileUploadForm = ({
                             : Number(currentPercent.toFixed(0))
                     );
                     if (currentPercent >= 100) {
-                        setIsModalOpen(false);
+                        setUploading(false);
                     }
                 }
             } else {
                 if (!file) {
-                    return messageApi.open({
-                        type: "error",
-                        content: "Please choose a .mp4 file first",
+                    return toast({
+                        variant: "destructive",
+                        description: "Please choose a .mp4 file first",
                     });
                 }
 
-                return messageApi.open({
-                    type: "warning",
-                    content: "We only support max file size of 200mb",
+                return toast({
+                    title: "Too large!",
+                    description: "We only support max file size of 200mb",
                 });
             }
         } else {
-            messageApi.open({
-                type: "warning",
-                content: "Your session is already being used...",
+            toast({
+                description: "Your session is already being used...",
             });
         }
     };
 
     return (
         <div>
-            {contextHolder}
+            <Label htmlFor="video-upload">Video File</Label>
             <Input
+                className="w-full"
+                id="video-upload"
                 type="file"
-                className=" w-[75vw] lg:w-[25vw]"
                 onChange={(e) =>
                     setFile(e.target.files ? e.target.files[0] : null)
                 }
             />
-            <Button
-                onClick={handleFile}
-                type="default"
-                size="large"
-                shape="default"
-                className="flex items-center"
-            >
-                Upload <UploadIcon className="ml-2 w-4 h-4" />
+            <Button onClick={handleFile} className="mt-2" variant="outline">
+                Upload
             </Button>
-            <div className="flex items-center">
-                <Slider
-                    min={20}
-                    max={300}
-                    onChange={setSegmentLength}
-                    value={segmentLength}
-                    className=" w-[75vw] lg:w-[25vw]"
-                />
-                <InputNumber
-                    min={20}
-                    max={300}
-                    className="mx-2"
-                    value={segmentLength}
-                    onChange={setSegmentLength}
-                />
-                <p className="font-light">Seconds</p>
-            </div>
-            <ProgressModal isModalOpen={isModalOpen} percent={percent} />
+            <Label htmlFor="slider">Adjust segment Length</Label>
+            <Slider
+                onChange={setSegmentLength}
+                defaultValue={[segmentLength]}
+                id="slider"
+                max={300}
+                min={20}
+            />
+
+            <p className="font-light">Seconds</p>
+            {uploading && <Progress value={percent} className="w-[60%]" />}
         </div>
     );
 };

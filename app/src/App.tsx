@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Session, createClient } from "@supabase/supabase-js";
-import { Database } from "./types/supabase";
-import Navbar from "./components/navbar";
-import Main from "./components/main-component";
+import { Database } from "@/types/supabase";
+import Main from "@/components/main-component";
+import { Navbar } from "@/components/navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 const supabase = createClient<Database>(
     import.meta.env.VITE_SUPABASE_URL,
@@ -25,14 +26,15 @@ function App() {
         return () => subscription.unsubscribe();
     }, []);
     return (
-        <main className="m-3">
-            <Navbar session={session} supabase={supabase} />
+        <div className="m-3">
+            <Navbar supabase={supabase} />
             {!session ? (
                 <div>sdljkhflsdf</div>
             ) : (
                 <Main session={session} supabase={supabase} />
             )}
-        </main>
+            <Toaster />
+        </div>
     );
 }
 

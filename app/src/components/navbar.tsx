@@ -1,18 +1,21 @@
+import { UserAccount } from "@/components/user-button";
 
-import LoginButton from "@/components/login-button";
-import { Session, SupabaseClient } from "@supabase/supabase-js";
-import UserButton from "@/components/user-button";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-const Navbar = ({session, supabase}:{session:Session | null, supabase:SupabaseClient}) => {
+export const Navbar = ({ supabase }: { supabase: SupabaseClient }) => {
     return (
-        <nav className="flex w-full justify-between items-center h-14">
-            <h1 className=" font-bold text-2xl ml-5">Submento</h1>
-            <div className="mr-5">
-                {!session?<LoginButton supabase={supabase}/>:<UserButton supabase={supabase}/>
-                }
+        <header className="top-0 z-40 w-full border-b bg-background">
+            <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+                <div className="flex gap-6 md:gap-10">
+                    <span className="inline-block font-bold">Submento</span>
+                </div>
+
+                <div className="flex flex-1 items-center justify-end">
+                    <nav className="flex items-center justify-center gap-5">
+                        <UserAccount supabase={supabase} />
+                    </nav>
+                </div>
             </div>
-        </nav>
+        </header>
     );
 };
-
-export default Navbar;

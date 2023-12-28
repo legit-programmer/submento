@@ -1,8 +1,7 @@
 import { Session, SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "@/types/supabase";
-import GenerateButton from "@/components/generate-button";
 import { useState } from "react";
-import FileUploadForm from "@/components/file-upload";
+import UploadCard from "@/components/upload-card";
 
 const Main = ({
     supabase,
@@ -15,19 +14,13 @@ const Main = ({
     const [segmentLength, setSegmentLength] = useState<number>(120);
     return (
         <div>
-            <FileUploadForm
-                session={session}
-                supabase={supabase}
+            <UploadCard
                 file={file}
-                setFile={setFile}
-                segmentLength={segmentLength}
-                setSegmentLength={setSegmentLength}
-            />
-
-            <GenerateButton
-                file={file}
-                session={session}
                 segment_length={segmentLength}
+                session={session}
+                setFile={setFile}
+                setSegmentLength={setSegmentLength}
+                supabase={supabase}
             />
         </div>
     );

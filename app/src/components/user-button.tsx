@@ -1,34 +1,75 @@
-import { SupabaseClient, User } from "@supabase/supabase-js";
-import { Avatar, Button, Dropdown, MenuProps } from "antd";
 import { useEffect, useState } from "react";
 
-const UserButton = ({ supabase }: { supabase: SupabaseClient }) => {
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { SupabaseClient, User } from "@supabase/supabase-js";
+import { PersonStandingIcon } from "lucide-react";
+
+export const UserAccount = ({ supabase }: { supabase: SupabaseClient }) => {
     const [user, setUser] = useState<User | null>(null);
     useEffect(() => {
         supabase.auth.getUser().then((res) => setUser(res.data.user));
     }, []);
-
+    const handleLogin = () => {
+        supabase.auth.signInWithOAuth({
+            provider: "google",
+        });
+    };
     const handleLogout = () => {
         supabase.auth.signOut();
     };
-    const items: MenuProps["items"] = [
-        {
-            key: "1",
-            label: <Button onClick={handleLogout}>Logout</Button>,
-        },
-    ];
-    return (
-        <Dropdown menu={{ items }} placement="bottomLeft">
-            <Button shape="circle" size="large" type="link">
-              <Avatar
-                  size={'large'}
-                  src={
-                      <img src={user ? user.user_metadata.avatar_url : ""}></img>
-                  }
-              />
-            </Button>
-        </Dropdown>
+
+    return user ? (
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+                <Button
+                    variant={"ghost"}
+                    className="ml-1 relative h-8 w-8 rounded-full"
+                >
+                    <Avatar>
+                        <AvatarImage src={user.user_metadata.avatar_url} />
+                        <AvatarFallback>
+                            <PersonStandingIcon />
+                        </AvatarFallback>
+                    </Avatar>
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 mt-2" align="end" forceMount>
+                <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">
+                            {user.user_metadata.full_name}
+                        </p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                            {user.email}
+                        </p>
+                    </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                        <Button
+                            onClick={handleLogout}
+                            variant={"destructive"}
+                            className="w-full"
+                        >
+                            Log Out
+                        </Button>
+                    </DropdownMenuItem>
+                </DropdownMenuGroup>
+            </DropdownMenuContent>
+        </DropdownMenu>
+    ) : (
+        <Button onClick={handleLogin}>Login</Button>
     );
 };
-
-export default UserButton;
