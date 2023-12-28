@@ -53,7 +53,7 @@ def generate_srt(transcription:str):
         s+=f"[{utils.format_timestamp(start)} --> {utils.format_timestamp(end)}] {text}"
 
     l = s.split('[')
-    with open('subs.srt', 'w') as f:
+    with open('files/subs.srt', 'w') as f:
         for i in l[1:]:
             line = i.split(']')
             time = line[0]

@@ -1,26 +1,33 @@
 import { Session, SupabaseClient } from "@supabase/supabase-js";
-import { Button, Input, message } from "antd";
+import { Button, Input, InputNumber, Slider, message } from "antd";
 import { useState } from "react";
 import { Database } from "../../types/supabase";
 import { UploadIcon } from "lucide-react";
 import ProgressModal from "./progress-modal";
 
-const FileUploadButton = ({
+const FileUploadForm = ({
     supabase,
     session,
+    file,
+    setFile,
+    segmentLength,
+    setSegmentLength,
 }: {
     supabase: SupabaseClient<Database>;
     session: Session | null;
+    file: File | null;
+    setFile: any;
+    segmentLength: number;
+    setSegmentLength: any;
 }) => {
-    const [file, setFile] = useState<File | null>(null);
     const [messageApi, contextHolder] = message.useMessage();
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0);
 
-    const uploadFile = async (fileName: string, id: string, file: Blob) => {
+    const uploadFile = async (id: string, file: Blob) => {
         await supabase.storage
             .from("videos")
-            .upload(`${id}-${fileName}`, file, { upsert: true });
+            .upload(`${id}-${session?.user.id}.mp4`, file, { upsert: true });
     };
     const handleFile = async () => {
         const { data } = await supabase
@@ -44,7 +51,7 @@ const FileUploadButton = ({
                 let currentPercent = 0;
                 while (offset < file.size) {
                     const slicedFile = file.slice(offset, offset + chunkSize);
-                    await uploadFile(file.name, offset.toString(), slicedFile);
+                    await uploadFile(offset.toString(), slicedFile);
                     offset += chunkSize;
                     console.log(currentPercent);
 
@@ -85,6 +92,7 @@ const FileUploadButton = ({
             {contextHolder}
             <Input
                 type="file"
+                className=" w-[75vw] lg:w-[25vw]"
                 onChange={(e) =>
                     setFile(e.target.files ? e.target.files[0] : null)
                 }
@@ -98,9 +106,26 @@ const FileUploadButton = ({
             >
                 Upload <UploadIcon className="ml-2 w-4 h-4" />
             </Button>
+            <div className="flex items-center">
+                <Slider
+                    min={20}
+                    max={300}
+                    onChange={setSegmentLength}
+                    value={segmentLength}
+                    className=" w-[75vw] lg:w-[25vw]"
+                />
+                <InputNumber
+                    min={20}
+                    max={300}
+                    className="mx-2"
+                    value={segmentLength}
+                    onChange={setSegmentLength}
+                />
+                <p className="font-light">Seconds</p>
+            </div>
             <ProgressModal isModalOpen={isModalOpen} percent={percent} />
         </div>
     );
 };
 
-export default FileUploadButton;
+export default FileUploadForm;
