@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Progress } from "./ui/progress";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 const FileUploadForm = ({
     supabase,
@@ -88,9 +89,10 @@ const FileUploadForm = ({
     };
 
     return (
-        <div>
+        <div className="space-y-5">
             <Label htmlFor="video-upload">Video File</Label>
             <Input
+                disabled={uploading}
                 className="w-full"
                 id="video-upload"
                 type="file"
@@ -98,19 +100,21 @@ const FileUploadForm = ({
                     setFile(e.target.files ? e.target.files[0] : null)
                 }
             />
-            <Button onClick={handleFile} className="mt-2" variant="outline">
-                Upload
-            </Button>
+            <Button disabled={uploading} onClick={handleFile} className="mt-2" variant="outline">
+                {uploading?<Loader2 className="animate-spin"/>:"Upload"}
+            </Button> <br /><br />
             <Label htmlFor="slider">Adjust segment Length</Label>
-            <Slider
-                onChange={setSegmentLength}
-                defaultValue={[segmentLength]}
-                id="slider"
-                max={300}
-                min={20}
-            />
-
-            <p className="font-light">Seconds</p>
+            <div className="flex space-x-2">
+                <Slider
+                    onValueChange={(e)=>{setSegmentLength(e)}}
+                    defaultValue={[segmentLength]}
+                    id="slider"
+                    max={300}
+                    min={20}
+                    className="w-[75%]"
+                />
+                <p className="font-light">{segmentLength} Seconds</p>
+            </div>
             {uploading && <Progress value={percent} className="w-[60%]" />}
         </div>
     );

@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardHeader } from "./ui/card";
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RecentActivityCard = () => {
     return (

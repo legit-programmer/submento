@@ -20,12 +20,12 @@ const UploadCard = ({
     setSegmentLength: any;
 }) => {
     return (
-        <Card className="rounded-lg shadow-lg md:col-span-2">
+        <Card className="rounded-lg shadow-lg md:col-span-2 space-y-5">
             <CardHeader className="p-4 ">
                 <h2 className="text-2xl font-semibold">Upload Your Video</h2>
             </CardHeader>
             <CardContent className="p-4">
-                <div className="grid gap-2">
+                <div className="grid gap-2 space-y-8">
                     <FileUploadForm
                         file={file}
                         segmentLength={segment_length}
@@ -38,6 +38,7 @@ const UploadCard = ({
                         file={file}
                         session={session}
                         segment_length={segment_length}
+                        supabase={supabase}
                     />
                 </div>
             </CardContent>

@@ -1,6 +1,6 @@
-import { ScrollArea } from "./ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { Card, CardHeader, CardContent } from "./ui/card";
+import { Card, CardHeader, CardContent } from "@/components/ui/card";
 
 const VideoSegmentCard = () => {
     return (
