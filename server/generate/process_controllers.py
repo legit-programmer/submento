@@ -46,14 +46,14 @@ def segments_from_transcription(verbose_transcription: str, segment_length:str):
     response = response[response.find('{'):temp+1]
     return response
 
-def generate_srt(transcription:str):
+def generate_srt(transcription:str, user_id:str):
     s = ""
     for i in transcription:
         start, end, text = i["start"], i["end"], i["text"]
         s+=f"[{utils.format_timestamp(start)} --> {utils.format_timestamp(end)}] {text}"
 
     l = s.split('[')
-    with open('files/subs.srt', 'w') as f:
+    with open(f'files/{user_id}.srt', 'w') as f:
         for i in l[1:]:
             line = i.split(']')
             time = line[0]

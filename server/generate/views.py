@@ -16,8 +16,8 @@ def generate(request):
     convert_video_to_audio(
         f'files/{fileName}', f"files/{fileName.replace('.mp4', '.mp3')}")
     transcript = transcribe(f"files/{fileName.replace('.mp4', '.mp3')}")
-    text = generate_srt(transcription=transcript)
+    text = generate_srt(transcription=transcript, user_id=uuid)
     segments = segments_from_transcription(text, segmentLength)
     print(segments)
-
+    uploadSrt(uuid, f'files/{uuid}.srt')
     return Response("Generated!", status=status.HTTP_200_OK)

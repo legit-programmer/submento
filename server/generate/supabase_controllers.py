@@ -32,3 +32,7 @@ def downloadVideo(filename: str):
                 currentFileList.append(file['name'])
                 offset += 49000000
     supabase.storage.from_('videos').remove(currentFileList)
+
+def uploadSrt(user_id:str, file):
+    filename = f"{len(supabase.storage.from_('videos').list(f'subtitles/{user_id}'))}"
+    supabase.storage.from_('videos').upload(f'subtitles/{user_id}/{filename}.srt', file)
