@@ -11,6 +11,8 @@ const UploadCard = ({
     segment_length,
     setFile,
     setSegmentLength,
+    setGenerated,
+    setSubtitleFileName
 }: {
     supabase:SupabaseClient<Database>
     session: Session | null;
@@ -18,6 +20,8 @@ const UploadCard = ({
     segment_length: number;
     setFile: any;
     setSegmentLength: any;
+    setGenerated:any
+    setSubtitleFileName:any
 }) => {
     return (
         <Card className="rounded-lg shadow-lg md:col-span-2 space-y-5">
@@ -39,6 +43,8 @@ const UploadCard = ({
                         session={session}
                         segment_length={segment_length}
                         supabase={supabase}
+                        setGenerated={setGenerated}
+                        setSubtitleFileName={setSubtitleFileName}
                     />
                 </div>
             </CardContent>

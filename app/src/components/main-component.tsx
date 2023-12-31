@@ -15,8 +15,8 @@ const Main = ({
 }) => {
     const [file, setFile] = useState<File | null>(null);
     const [segmentLength, setSegmentLength] = useState<number>(120);
-    // const [loading, setLoading] = useState<boolean>(false)
-    // const [generated, setGenerated] = useState<boolean>(false)
+    const [generated, setGenerated] = useState<boolean>(false)
+    const [subtitleFileName, setSubtitleFileName] = useState<string|null>(null)
     return (
         <div className="p-4 sm:p-6 grid gap-4 sm:gap-6 md:grid-cols-3">
             <UploadCard
@@ -26,10 +26,12 @@ const Main = ({
                 setFile={setFile}
                 setSegmentLength={setSegmentLength}
                 supabase={supabase}
+                setGenerated={setGenerated}
+                setSubtitleFileName={setSubtitleFileName}
             />
             <RecentActivityCard/>
-            <DownloadSubtitleCard/>
-            <VideoSegmentCard/>
+            {generated&&<DownloadSubtitleCard session={session} supabase={supabase} subtitleFileName={subtitleFileName}/>}
+            {generated&&<VideoSegmentCard/>}    
         </div>
     );
 };

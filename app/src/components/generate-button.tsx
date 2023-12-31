@@ -1,14 +1,25 @@
 import { Session, SupabaseClient } from "@supabase/supabase-js";
 
 import axios from "axios";
-import { GaugeIcon } from "lucide-react";
+import { GaugeIcon, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Database } from "@/types/supabase";
 import { toast } from "@/components/ui/use-toast";
+import { useState } from "react";
 
 export interface RequestFormat {
     segment_length: string;
     user_id: string;
+}
+
+export interface ResponseFormat {
+    uploaded_srt_file_name: string;
+    segments: {
+        title: string;
+        length: string;
+        start_time: string;
+        end_time: string;
+    }[];
 }
 
 const GenerateButton = ({
@@ -16,12 +27,17 @@ const GenerateButton = ({
     file,
     segment_length,
     supabase,
+    setGenerated,
+    setSubtitleFileName,
 }: {
     session: Session | null;
     file: File | null;
     segment_length: number;
     supabase: SupabaseClient<Database>;
+    setGenerated: any;
+    setSubtitleFileName: any;
 }) => {
+    const [loading, setLoading] = useState<boolean>(false);
     const handleGenerate = async () => {
         console.log(file?.name);
         const { data } = await supabase.storage.from("videos").list();
@@ -35,7 +51,33 @@ const GenerateButton = ({
                 segment_length: `${segment_length} seconds`,
                 user_id: session?.user.id ?? "",
             };
-            axios.post("http://127.0.0.1:8000/generate/", payload);
+            try {
+                setLoading(true);
+                const res = await axios.post(
+                    "http://127.0.0.1:8000/generate/",
+                    payload
+                );
+                if (res.status === 200) {
+                    const data:ResponseFormat = res.data
+                    console.log(data.segments);
+                    
+                    setSubtitleFileName(data.uploaded_srt_file_name)
+                    setGenerated(true);
+                }
+                else {
+                    return toast({
+                        description: "Internal Server Error!",
+                        variant: "destructive",
+                    });
+                }
+            } catch {
+                return toast({
+                    description: "Error occured while contacting server!",
+                    variant: "destructive",
+                });
+            } finally {
+                setLoading(false);
+            }
         } else {
             return toast({
                 title: "Beep Boop!",
@@ -46,12 +88,16 @@ const GenerateButton = ({
 
     return (
         <Button
-            disabled={!file}
+            disabled={!file || loading}
             onClick={handleGenerate}
             className=" rounded-md px-6 py-3 text-lg"
         >
             <GaugeIcon className="w-6 h-6 mr-2" />
-            Start Generation
+            {loading ? (
+                <Loader2 className="animate-spin" />
+            ) : (
+                "Start Generation"
+            )}
         </Button>
     );
 };

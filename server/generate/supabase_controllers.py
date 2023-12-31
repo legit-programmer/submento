@@ -34,5 +34,12 @@ def downloadVideo(filename: str):
     supabase.storage.from_('videos').remove(currentFileList)
 
 def uploadSrt(user_id:str, file):
-    filename = f"{len(supabase.storage.from_('videos').list(f'subtitles/{user_id}'))}"
-    supabase.storage.from_('videos').upload(f'subtitles/{user_id}/{filename}.srt', file)
+    filename = f"{len(supabase.storage.from_('videos').list(f'subtitles/{user_id}'))}.srt"
+    supabase.storage.from_('videos').upload(f'subtitles/{user_id}/{filename}', file)
+    return filename
+
+def setGenerationState(user_id:str, is_generating:bool):
+    if is_generating:
+        supabase.from_('in_progress').insert({"user_id":user_id}).execute()
+    else:
+        supabase.from_('in_progress').delete().eq('user_id', user_id).execute()
