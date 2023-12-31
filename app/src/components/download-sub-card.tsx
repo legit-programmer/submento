@@ -16,7 +16,7 @@ const DownloadSubtitleCard = ({
     const handleDownload = async () => {
         const downloaded = await downloadFile(
             supabase,
-            `subtitles/${session?.user.id??""}/${subtitleFileName}`,
+            `subtitles/${session?.user.id ?? ""}/${subtitleFileName}`,
             subtitleFileName ?? ""
         );
         if (downloaded) {
@@ -33,7 +33,7 @@ const DownloadSubtitleCard = ({
     };
 
     return (
-        <Card className="rounded-lg shadow-lg md:col-span-2">
+        <Card className="rounded-[10px] shadow-lg md:col-span-2">
             <CardHeader className="p-4">
                 <h2 className="text-2xl font-semibold">Download Subtitles</h2>
             </CardHeader>

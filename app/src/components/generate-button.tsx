@@ -12,14 +12,15 @@ export interface RequestFormat {
     user_id: string;
 }
 
+export interface VideoSegment {
+    title: string;
+    length: string;
+    start_time: string;
+    end_time: string;
+}
 export interface ResponseFormat {
     uploaded_srt_file_name: string;
-    segments: {
-        title: string;
-        length: string;
-        start_time: string;
-        end_time: string;
-    }[];
+    segments: VideoSegment[];
 }
 
 const GenerateButton = ({
@@ -29,6 +30,7 @@ const GenerateButton = ({
     supabase,
     setGenerated,
     setSubtitleFileName,
+    setVideoSegment,
 }: {
     session: Session | null;
     file: File | null;
@@ -36,6 +38,7 @@ const GenerateButton = ({
     supabase: SupabaseClient<Database>;
     setGenerated: any;
     setSubtitleFileName: any;
+    setVideoSegment: any;
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const handleGenerate = async () => {
@@ -58,13 +61,13 @@ const GenerateButton = ({
                     payload
                 );
                 if (res.status === 200) {
-                    const data:ResponseFormat = res.data
+                    const data: ResponseFormat = res.data;
                     console.log(data.segments);
-                    
-                    setSubtitleFileName(data.uploaded_srt_file_name)
+
+                    setSubtitleFileName(data.uploaded_srt_file_name);
+                    setVideoSegment(data.segments)
                     setGenerated(true);
-                }
-                else {
+                } else {
                     return toast({
                         description: "Internal Server Error!",
                         variant: "destructive",

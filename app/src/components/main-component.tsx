@@ -5,6 +5,7 @@ import UploadCard from "@/components/upload-card";
 import RecentActivityCard from "@/components/recent-activity";
 import DownloadSubtitleCard from "@/components/download-sub-card";
 import VideoSegmentCard from "@/components/video-seg-card";
+import { VideoSegment } from "@/components/generate-button";
 
 const Main = ({
     supabase,
@@ -17,21 +18,97 @@ const Main = ({
     const [segmentLength, setSegmentLength] = useState<number>(120);
     const [generated, setGenerated] = useState<boolean>(false)
     const [subtitleFileName, setSubtitleFileName] = useState<string|null>(null)
+    const [videoSegment, setVideoSegment] = useState<VideoSegment[] | null>([
+        {
+          "title": "Introduction to Tales OS",
+          "length": "120 seconds",
+          "start_time": "00:00.000",
+          "end_time": "02:00.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        },
+        {
+          "title": "How to install and run Tales OS",
+          "length": "40 seconds",
+          "start_time": "02:00.000",
+          "end_time": "02:40.000"
+        }
+      ])
     return (
         <div className="p-4 sm:p-6 grid gap-4 sm:gap-6 md:grid-cols-3">
             <UploadCard
                 file={file}
                 segment_length={segmentLength}
                 session={session}
+                generated={generated}
                 setFile={setFile}
                 setSegmentLength={setSegmentLength}
                 supabase={supabase}
                 setGenerated={setGenerated}
                 setSubtitleFileName={setSubtitleFileName}
+                setVideoSegment={setVideoSegment}
             />
             <RecentActivityCard/>
             {generated&&<DownloadSubtitleCard session={session} supabase={supabase} subtitleFileName={subtitleFileName}/>}
-            {generated&&<VideoSegmentCard/>}    
+            {generated&&<VideoSegmentCard videoSegment={videoSegment}/>}    
         </div>
     );
 };

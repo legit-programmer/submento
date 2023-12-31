@@ -1,10 +1,9 @@
-
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const RecentActivityCard = () => {
     return (
-        <Card className="rounded-lg shadow-lg">
+        <Card className="rounded-[10px] shadow-lg">
             <CardHeader className="p-4 ">
                 <h2 className="text-2xl font-semibold">Recent Activities</h2>
             </CardHeader>
