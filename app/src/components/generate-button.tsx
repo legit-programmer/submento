@@ -10,6 +10,7 @@ import { useState } from "react";
 export interface RequestFormat {
     segment_length: string;
     user_id: string;
+    filename:string;
 }
 
 export interface VideoSegment {
@@ -42,7 +43,6 @@ const GenerateButton = ({
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const handleGenerate = async () => {
-        console.log(file?.name);
         const { data } = await supabase.storage.from("videos").list();
         const fileList = data?.filter((file) => {
             return file.name.includes(session?.user.id ?? "");
@@ -53,6 +53,7 @@ const GenerateButton = ({
             const payload: RequestFormat = {
                 segment_length: `${segment_length} seconds`,
                 user_id: session?.user.id ?? "",
+                filename:file?.name??""
             };
             try {
                 setLoading(true);

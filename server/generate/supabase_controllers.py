@@ -43,3 +43,13 @@ def setGenerationState(user_id:str, is_generating:bool):
         supabase.from_('in_progress').insert({"user_id":user_id}).execute()
     else:
         supabase.from_('in_progress').delete().eq('user_id', user_id).execute()
+
+def updateUserData(user_id:str, actualFilename:str, uploaded_srt_file_name:str, segments:str):
+    response = supabase.from_('user_data').insert({
+        "user_id":user_id,
+        "filename":actualFilename,
+        "storage_filename":uploaded_srt_file_name,
+        "segments":segments
+    }).execute()
+
+    return response

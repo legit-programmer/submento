@@ -33,7 +33,7 @@ const Main = ({
                 setSubtitleFileName={setSubtitleFileName}
                 setVideoSegment={setVideoSegment}
             />
-            <RecentActivityCard/>
+            <RecentActivityCard session={session} supabase={supabase}/>
             {generated&&<DownloadSubtitleCard session={session} supabase={supabase} subtitleFileName={subtitleFileName}/>}
             {generated&&<VideoSegmentCard videoSegment={videoSegment}/>}    
         </div>
