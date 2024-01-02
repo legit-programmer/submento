@@ -32,6 +32,7 @@ const GenerateButton = ({
     setGenerated,
     setSubtitleFileName,
     setVideoSegment,
+    autoSegment,
 }: {
     session: Session | null;
     file: File | null;
@@ -40,6 +41,7 @@ const GenerateButton = ({
     setGenerated: any;
     setSubtitleFileName: any;
     setVideoSegment: any;
+    autoSegment:boolean
 }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const handleGenerate = async () => {
@@ -51,7 +53,7 @@ const GenerateButton = ({
 
         if (fileList && fileList.length > 0) {
             const payload: RequestFormat = {
-                segment_length: `${segment_length} seconds`,
+                segment_length: autoSegment?"null":segment_length.toString(),
                 user_id: session?.user.id ?? "",
                 filename:file?.name??""
             };

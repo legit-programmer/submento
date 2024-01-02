@@ -5,6 +5,7 @@ import FileUploadForm from "@/components/file-upload";
 import { Database } from "@/types/supabase";
 import { Button } from "@/components/ui/button";
 import { PlusCircleIcon } from "lucide-react";
+import { useState } from "react";
 
 const UploadCard = ({
     supabase,
@@ -29,6 +30,7 @@ const UploadCard = ({
     setSubtitleFileName: any;
     setVideoSegment: any;
 }) => {
+    const [autoSegment, setAutoSegment] = useState<boolean>(true);
     return (
         <Card className="rounded-[10px] shadow-lg md:col-span-2 space-y-5">
             <CardHeader className="p-4 ">
@@ -44,6 +46,8 @@ const UploadCard = ({
                             setFile={setFile}
                             setSegmentLength={setSegmentLength}
                             supabase={supabase}
+                            autoSegment={autoSegment}
+                            setAutoSegment={setAutoSegment}
                         />
                         <GenerateButton
                             file={file}
@@ -53,6 +57,7 @@ const UploadCard = ({
                             setGenerated={setGenerated}
                             setSubtitleFileName={setSubtitleFileName}
                             setVideoSegment={setVideoSegment}
+                            autoSegment={autoSegment}
                         />
                     </div>
                 ) : (

@@ -24,7 +24,7 @@ def segments_from_transcription(verbose_transcription: str, segment_length:str):
     g4f.debug.check_version = False  
     command = """
     below is a verbose transcription of a video,
-    you need to divide it into segments just like in youtube , length of each :,""" + segment_length +""" 
+    you need to divide it into segments just like in youtube , """ + segment_length +""" 
     and the starting time and ending time of the same,
     all in json format,
     with the appropriate title of the segment ,
@@ -63,3 +63,6 @@ def generate_srt(transcription:str, user_id:str):
             print(str(l.index(i)) + "\n" + time + "\n" + line[1].strip() + "\n\n")
             f.writelines(str(l.index(i)) + "\n" + time + "\n" + line[1].strip() + "\n\n")
     return s
+
+
+    

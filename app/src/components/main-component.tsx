@@ -15,7 +15,7 @@ const Main = ({
     session: Session | null;
 }) => {
     const [file, setFile] = useState<File | null>(null);
-    const [segmentLength, setSegmentLength] = useState<number>(120);
+    const [segmentLength, setSegmentLength] = useState<number>(1);
     const [generated, setGenerated] = useState<boolean>(false)
     const [subtitleFileName, setSubtitleFileName] = useState<string|null>(null)
     const [videoSegment, setVideoSegment] = useState<VideoSegment[] | null>(null)

@@ -8,25 +8,30 @@ import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
 
 const FileUploadForm = ({
     supabase,
     session,
     file,
     setFile,
+    autoSegment,
+    setAutoSegment,
     segmentLength,
     setSegmentLength,
 }: {
     supabase: SupabaseClient<Database>;
     session: Session | null;
     file: File | null;
+    autoSegment:boolean
     setFile: any;
     segmentLength: number;
     setSegmentLength: any;
+    setAutoSegment:any
 }) => {
     const [uploading, setUploading] = useState<boolean>(false);
     const [percent, setPercent] = useState<number>(0);
-
+    
     const uploadFile = async (id: string, file: Blob) => {
         await supabase.storage
             .from("videos")
@@ -37,8 +42,7 @@ const FileUploadForm = ({
             .from("in_progress")
             .select("*")
             .eq("user_id", session?.user.id ?? "")
-            .maybeSingle();
-        console.log(data);
+            .single()     
 
         if (!data) {
             let chunkSize = 49000000;
@@ -100,20 +104,37 @@ const FileUploadForm = ({
                     setFile(e.target.files ? e.target.files[0] : null)
                 }
             />
-            <Button disabled={uploading} onClick={handleFile} className="mt-2" variant="outline">
-                {uploading?<Loader2 className="animate-spin"/>:"Upload"}
-            </Button> <br /><br />
+            <Button
+                disabled={uploading}
+                onClick={handleFile}
+                className="mt-2"
+                variant="outline"
+            >
+                {uploading ? <Loader2 className="animate-spin" /> : "Upload"}
+            </Button>{" "}
+            <br />
+            <br />
             <Label htmlFor="slider">Adjust segment Length</Label>
-            <div className="flex space-x-2">
+            <div className="flex items-center space-x-3">
+                <Label className="font-light" htmlFor="auto">
+                    Let AI decide your video segments
+                </Label>
+                <Switch defaultChecked={true} onCheckedChange={setAutoSegment} id="auto" />
+                <br />
+            </div>
+            <div  className="flex space-x-2">
                 <Slider
-                    onValueChange={(e)=>{setSegmentLength(e)}}
+                disabled={autoSegment}
+                    onValueChange={(e) => {
+                        setSegmentLength(e);
+                    }}
                     defaultValue={[segmentLength]}
                     id="slider"
                     max={300}
-                    min={20}
+                    min={1}
                     className="w-[75%]"
                 />
-                <p className="font-light">{segmentLength} Seconds</p>
+                <p className="font-light">{segmentLength} Minutes</p>
             </div>
             {uploading && <Progress value={percent} className="w-[60%]" />}
         </div>
