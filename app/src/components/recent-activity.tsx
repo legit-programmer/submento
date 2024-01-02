@@ -55,7 +55,7 @@ const RecentActivityCard = ({
                         <h1>No Activites</h1>
                     ) : (
                         userData.map((activity) => {
-                            return <Activity activity={activity} />;
+                            return <Activity supabase={supabase} session={session} activity={activity} />;
                         })
                     )}
                 </ScrollArea>
