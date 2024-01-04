@@ -51,10 +51,10 @@ const GenerateButton = ({
             .from("in_progress")
             .select("*")
             .eq("user_id", session?.user.id ?? "")
-            .maybeSingle()
-            if (data){
-                setStatus(data?.status ?? "Contacting server");   
-            }
+            .maybeSingle();
+        if (data) {
+            setStatus(data?.status ?? "Contacting server");
+        }
     };
     const handleGenerate = async () => {
         const { data } = await supabase.storage.from("videos").list();
@@ -71,10 +71,10 @@ const GenerateButton = ({
                 user_id: session?.user.id ?? "",
                 filename: file?.name ?? "",
             };
+            const interval = setInterval(fetchStatus, 2000);
             try {
                 setLoading(true);
 
-                const interval = setInterval(fetchStatus, 2000);
                 const res = await axios.post(
                     "http://127.0.0.1:8000/generate/",
                     payload
@@ -87,14 +87,11 @@ const GenerateButton = ({
                     setVideoSegment(data.segments);
                     setGenerated(true);
                 } else {
-                    clearInterval(interval);
-
-                    return toast({
+                    toast({
                         description: "Internal Server Error!",
                         variant: "destructive",
                     });
                 }
-                clearInterval(interval);
             } catch {
                 return toast({
                     description: "Error occured while contacting server!",
@@ -102,7 +99,7 @@ const GenerateButton = ({
                 });
             } finally {
                 console.log("cleatring");
-
+                clearInterval(interval);
                 setLoading(false);
             }
         } else {
@@ -114,11 +111,11 @@ const GenerateButton = ({
     };
 
     return (
-        <div>
+        <div className="w-full flex justify-center">
             <Button
                 disabled={!file || loading}
                 onClick={handleGenerate}
-                className=" rounded-md px-6 py-3 text-lg"
+                className="w-[70%] rounded px-6 py-3 text-lg"
             >
                 <GaugeIcon className="w-6 h-6 mr-2" />
                 {loading ? (

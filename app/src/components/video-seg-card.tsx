@@ -2,10 +2,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
 import { VideoSegment } from "./generate-button";
+import { cn } from "@/lib/utils";
 const VideoSegmentCard = ({
     videoSegment,
+    variant = "default",
 }: {
     videoSegment: VideoSegment[] | null;
+    variant: "default" | "small";
 }) => {
     return (
         <Card className="rounded-[10px] shadow-lg md:col-span-2">
@@ -20,9 +23,23 @@ const VideoSegmentCard = ({
                         {videoSegment && videoSegment.length > 0 ? (
                             videoSegment.map((segment) => {
                                 return (
-                                    <Card className="rounded-[5px] my-2" key={segment.title}>
-                                        <CardContent className="text-md flex h-full items-center mt-6">
-                                            <h1 className="mx-3 font-bold">
+                                    <Card
+                                        className="rounded-[5px] my-2"
+                                        key={segment.title}
+                                    >
+                                        <CardContent
+                                            className={cn(
+                                                "text-md h-full items-center mt-6",
+                                                variant == "default" && "flex"
+                                            )}
+                                        >
+                                            <h1
+                                                className={cn(
+                                                    " font-bold",
+                                                    variant == "default" &&
+                                                        "mx-3"
+                                                )}
+                                            >
                                                 {segment.start_time} -{" "}
                                                 {segment.end_time}
                                             </h1>
