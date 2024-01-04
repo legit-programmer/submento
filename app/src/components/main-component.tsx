@@ -35,7 +35,7 @@ const Main = ({
             />
             <RecentActivityCard session={session} supabase={supabase}/>
             {generated&&<DownloadSubtitleCard session={session} supabase={supabase} subtitleFileName={subtitleFileName}/>}
-            {generated&&<VideoSegmentCard videoSegment={videoSegment}/>}    
+            {generated&&<VideoSegmentCard variant="default" videoSegment={videoSegment}/>}    
         </div>
     );
 };
