@@ -3,7 +3,6 @@ import supabase
 import os
 from supabase import create_client, Client
 from dotenv import load_dotenv
-
 load_dotenv()
 
 url: str = os.environ.get("SUPABASE_URL")
@@ -17,7 +16,6 @@ def log(msg):
 
 
 def downloadVideo(filename: str):
-    
     filelist = supabase.storage.from_('videos').list()
     log(filelist)
     currentFileList = []
@@ -33,23 +31,28 @@ def downloadVideo(filename: str):
                 offset += 49000000
     supabase.storage.from_('videos').remove(currentFileList)
 
-def uploadSrt(user_id:str, file):
+
+def uploadSrt(user_id: str, file):
     filename = f"{len(supabase.storage.from_('videos').list(f'subtitles/{user_id}'))}.srt"
-    supabase.storage.from_('videos').upload(f'subtitles/{user_id}/{filename}', file)
+    supabase.storage.from_('videos').upload(
+        f'subtitles/{user_id}/{filename}', file)
     return filename
 
-def setGenerationState(user_id:str, is_generating:bool):
-    if is_generating:
-        supabase.from_('in_progress').insert({"user_id":user_id}).execute()
-    else:
-        supabase.from_('in_progress').delete().eq('user_id', user_id).execute()
 
-def updateUserData(user_id:str, actualFilename:str, uploaded_srt_file_name:str, segments:str):
+def setGenerationState(uniqueid, user_id: str, is_generating: bool, status: str = "Activating Session..."):
+    if is_generating:
+        supabase.from_('in_progress').upsert(
+            {"id": uniqueid, "user_id": user_id, "status": status}).execute()
+    else:
+        supabase.from_('in_progress').delete().eq("id", uniqueid).execute()
+
+
+def updateUserData(user_id: str, actualFilename: str, uploaded_srt_file_name: str, segments: str):
     response = supabase.from_('user_data').insert({
-        "user_id":user_id,
-        "filename":actualFilename,
-        "storage_filename":uploaded_srt_file_name,
-        "segments":segments
+        "user_id": user_id,
+        "filename": actualFilename,
+        "storage_filename": uploaded_srt_file_name,
+        "segments": segments
     }).execute()
 
     return response

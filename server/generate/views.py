@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .supabase_controllers import *
 from .process_controllers import *
 import os
+import uuid
 
 @api_view(['POST'])
 def generate(request):
@@ -13,28 +14,38 @@ def generate(request):
     data = dict(request.data)
 
     segmentLength: str = data.get('segment_length')
-    uuid: str = data.get('user_id')
-    fileName: str = uuid + '.mp4'
+    user_id: str = data.get('user_id')
+    fileName: str = user_id + '.mp4'
     actualFilename: str = data.get('filename')
 
-    setGenerationState(user_id=uuid, is_generating=True)
-
+    uniqueId = uuid.uuid4().__str__()
+    
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Fetching Video")
     downloadVideo(fileName)
+
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Converting")
     convert_video_to_audio(
         f'files/{fileName}', f"files/{fileName.replace('.mp4', '.mp3')}")
+    
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Transcribing")
     transcript = transcribe(f"files/{fileName.replace('.mp4', '.mp3')}")
-    text = generate_srt(transcription=transcript, user_id=uuid)
+
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Generating subtitles")
+    text = generate_srt(transcription=transcript, user_id=user_id)
     segmentsLength = f"length of each :,{segmentLength} minutes" if segmentLength != "null" else ""
+    
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Generating segments")
     segments = segments_from_transcription(text, segmentsLength)
 
     print(segments)
 
-    uploadedFileName = uploadSrt(uuid, f'files/{uuid}.srt')
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Uploading user data")
+    uploadedFileName = uploadSrt(user_id, f'files/{user_id}.srt')
 
-    updateUserData(uuid, actualFilename, uploadedFileName, segments)
+    updateUserData(user_id, actualFilename, uploadedFileName, segments)
 
     data = json.loads(segments.strip())
     data['uploaded_srt_file_name'] = uploadedFileName
 
-    setGenerationState(user_id=uuid, is_generating=False)
+    setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=False)
     return Response(data, status=status.HTTP_200_OK)

@@ -12,14 +12,17 @@ export interface Database {
       in_progress: {
         Row: {
           id: string
+          status: string | null
           user_id: string
         }
         Insert: {
           id?: string
+          status?: string | null
           user_id: string
         }
         Update: {
           id?: string
+          status?: string | null
           user_id?: string
         }
         Relationships: [

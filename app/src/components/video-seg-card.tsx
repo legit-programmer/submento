@@ -20,7 +20,7 @@ const VideoSegmentCard = ({
                         {videoSegment && videoSegment.length > 0 ? (
                             videoSegment.map((segment) => {
                                 return (
-                                    <Card className="rounded-[5px] my-2">
+                                    <Card className="rounded-[5px] my-2" key={segment.title}>
                                         <CardContent className="text-md flex h-full items-center mt-6">
                                             <h1 className="mx-3 font-bold">
                                                 {segment.start_time} -{" "}
