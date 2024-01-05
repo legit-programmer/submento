@@ -5,6 +5,8 @@ import Main from "@/components/main-component";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import LandingPage from "@/components/landing";
+import { Alert } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const supabase = createClient<Database>(
     import.meta.env.VITE_SUPABASE_URL,
@@ -30,9 +32,19 @@ function App() {
         <div className="m-2">
             <Navbar supabase={supabase} />
             {!session ? (
-                <div className="h-[75vh]"><LandingPage supabase={supabase}/></div>
+                <div className="h-[75vh]">
+                    <LandingPage supabase={supabase} />
+                </div>
             ) : (
                 <div className="mx-2">
+                    <Alert className="animate-pulse flex justify-center text-red-400">
+                        <div className="flex">
+                            <AlertCircle />{" "}
+                            <h1 className="ml-2">
+                                Backend server is under maintenance.
+                            </h1>
+                        </div>
+                    </Alert>
                     <Main session={session} supabase={supabase} />
                 </div>
             )}
