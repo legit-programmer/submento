@@ -4,10 +4,10 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 export const Navbar = ({ supabase }: { supabase: SupabaseClient }) => {
     return (
-        <header className="top-0 z-40 w-full border-b bg-background">
-            <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
+        <header className="top-0 z-40 w-full  bg-background">
+            <div className=" container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
                 <div className="flex gap-6 md:gap-10">
-                    <span className="inline-block font-bold text-3xl">Submento</span>
+                    <span className="inline-block  text-3xl font-modern font-bold text-[#623c13]">Submento</span>
                 </div>
 
                 <div className="flex flex-1 items-center justify-end">

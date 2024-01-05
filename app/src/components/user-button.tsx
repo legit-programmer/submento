@@ -24,8 +24,9 @@ export const UserAccount = ({ supabase }: { supabase: SupabaseClient }) => {
             provider: "google",
         });
     };
-    const handleLogout = () => {
-        supabase.auth.signOut();
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        window.location.reload()
     };
 
     return user ? (
