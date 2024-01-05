@@ -4,6 +4,7 @@ import { Database } from "@/types/supabase";
 import Main from "@/components/main-component";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
+import LandingPage from "@/components/landing";
 
 const supabase = createClient<Database>(
     import.meta.env.VITE_SUPABASE_URL,
@@ -29,7 +30,7 @@ function App() {
         <div className="m-2">
             <Navbar supabase={supabase} />
             {!session ? (
-                <div>sdljkhflsdf</div>
+                <div className="h-[75vh]"><LandingPage supabase={supabase}/></div>
             ) : (
                 <div className="mx-2">
                     <Main session={session} supabase={supabase} />

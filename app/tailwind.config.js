@@ -18,6 +18,7 @@ module.exports = {
         },
         fontFamily: {
             modern: ["Rubik Doodle Shadow", "system-ui"],
+            goodlook: ["DM Serif Display", "serif"],
         },
         extend: {
             colors: {
