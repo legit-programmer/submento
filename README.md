@@ -17,7 +17,20 @@ Submento is a web application that empowers users to upload videos, automaticall
 - **Beautiful User Interface**: Enjoy a clean and intuitive user interface for a seamless experience.
 - **Export Options**: Download your subtitles and segments.
 - **Recent Activies**: Track all your previously processed videos, export subtitles and segments anytime.
-  
+
+## Snapshots
+
+
+### Minimal & User-friendly dashboard
+![image](https://github.com/legit-programmer/submento/assets/66078215/c42b4f04-0906-4c77-8249-132cafe388a6)
+![image](https://github.com/legit-programmer/submento/assets/66078215/62c94274-911a-4994-a024-e28018897a58)
+![image](https://github.com/legit-programmer/submento/assets/66078215/79c7dd05-8d52-4f39-b660-c8f008b72625)
+
+### We store your past activites!
+![image](https://github.com/legit-programmer/submento/assets/66078215/17755e11-e935-4ade-b991-51abb662300a)
+
+
+
 ## Tech Stack ⚙
 
 - [React + Typescript](https://react.dev/) : Frontend (chunk uploads, fetching, validations etc)
