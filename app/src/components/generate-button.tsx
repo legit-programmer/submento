@@ -76,7 +76,7 @@ const GenerateButton = ({
                 setLoading(true);
 
                 const res = await axios.post(
-                    "http://127.0.0.1:8000/generate/",
+                    "http://13.127.160.185/generate/",
                     payload
                 );
                 if (res.status === 200) {
