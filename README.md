@@ -1,5 +1,5 @@
 <h1 align="center">
-    Submento - AI powered video processing tool<br>
+    Submento<br>
     <img src="https://img.shields.io/twitter/follow/legitisadev?style=flat&label=%40legitisadev&logo=twitter&color=0bf&logoColor=fff" alt="Twitter" />
     <img src="https://img.shields.io/badge/License-AGPL3.0-orange">
     <img src="https://img.shields.io/badge/Contributions-Open-green">
