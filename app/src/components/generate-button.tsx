@@ -76,7 +76,7 @@ const GenerateButton = ({
                 setLoading(true);
 
                 const res = await axios.post(
-                    "http://13.127.160.185/generate/",
+                    "https://api.legittt.me/generate/",
                     payload
                 );
                 if (res.status === 200) {
