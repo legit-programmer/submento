@@ -37,7 +37,8 @@ def generate(request):
     setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Generating segments")
     segments = segments_from_transcription(text, segmentsLength)
 
-    print(segments)
+    if ("</script>") in segments:
+        return Response("Error while generating segments for your video, please try again...", status.HTTP_500_INTERNAL_SERVER_ERROR)    
 
     setGenerationState(uniqueid=uniqueId, user_id=user_id, is_generating=True, status="Uploading user data")
     uploadedFileName = uploadSrt(user_id, f'files/{user_id}.srt')

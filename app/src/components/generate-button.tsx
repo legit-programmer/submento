@@ -88,7 +88,7 @@ const GenerateButton = ({
                     setGenerated(true);
                 } else {
                     toast({
-                        description: "Internal Server Error!",
+                        description: "Internal Server Error! Please try again...",
                         variant: "destructive",
                     });
                 }
