@@ -42,7 +42,7 @@ const FileUploadForm = ({
             .from("in_progress")
             .select("*")
             .eq("user_id", session?.user.id ?? "")
-            .maybeSingle()
+            .maybeSingle();
 
         if (!data) {
             let chunkSize = 49000000;
@@ -104,7 +104,11 @@ const FileUploadForm = ({
                     setFile(e.target.files ? e.target.files[0] : null)
                 }
             />
-            {uploading && <Progress value={percent} className="w-[60%]" />}
+            {uploading && (file?.size ?? 0) / 1000000 > 49 ? (
+                <Progress value={percent} className="w-[60%]" />
+            ) : (
+                ""
+            )}
             <Button
                 disabled={uploading}
                 onClick={handleFile}
